@@ -84,3 +84,22 @@ class TestAnalysis(TestCase):
         ]
         instance.append_order_list(orders)
         assert has_condorcet(instance) is True
+
+    def test_plurality(self):
+        # 0 > 1 > 2 ~ 3
+        # 2 ~ 3 > 1 > 0
+        # 1 > 0 > 2 ~ 3
+        # 1 > 2 > 0 ~ 3
+        instance = OrdinalInstance()
+        orders = [
+            ((0,), (1,), (2,3)),
+            ((2,3), (1,), (0,)),
+            ((1,), (0,), (2,3)),
+            ((1,), (2,), (0,3)),
+        ]
+        instance.append_order_list(orders)
+        scores = plurality_scores(instance)
+        assert scores[0] == 1
+        assert scores[1] == 2
+        assert scores[2] == 1
+        assert scores[3] == 1

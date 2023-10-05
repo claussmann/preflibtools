@@ -102,3 +102,25 @@ def borda_scores(instance):
                 else:
                     res[alt] += i * multiplicity
     return res
+
+
+@requires_ordinal_preference
+@requires_complete_preference
+def plurality_scores(instance):
+    """Computes the total Plurality scores of all the alternatives of the instance.
+
+    :param instance: The instance.
+    :type instance: preflibtools.instances.preflibinstance.PreflibInstance
+
+    :return: A dictionary mapping every instance to their Plurality score.
+    :rtype: dict
+    """
+    ret = dict([])
+    for order in instance.orders:
+        multiplicity = instance.multiplicity[order]
+        for alt in order[0]:
+            if alt not in ret:
+                ret[alt] = multiplicity
+            else:
+                ret[alt] += multiplicity
+    return ret
