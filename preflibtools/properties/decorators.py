@@ -3,6 +3,7 @@ rules and other functions, to ensure the input instance works for the function.
 """
 
 from . import *
+from preflibtools.instances.preflibinstance import *
 
 
 class PreferenceIncompatibleError(Exception):
@@ -29,5 +30,13 @@ def requires_complete_preference(fn):
     def checker_fn(instance, *params):
         if not is_complete(instance):
             raise PreferenceIncompatibleError("Only complete preferences accepted.")
+        return fn(instance, *params)
+    return checker_fn
+
+
+def requires_ordinal_preference(fn):
+    def checker_fn(instance, *params):
+        if not isinstance(instance, OrdinalInstance):
+            raise PreferenceIncompatibleError("Only ordinal preferences accepted.")
         return fn(instance, *params)
     return checker_fn
