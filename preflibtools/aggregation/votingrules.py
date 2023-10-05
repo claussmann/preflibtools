@@ -1,6 +1,10 @@
 """ This module contains several voting methods to aggregate the preferences in an instance.
 """
 
+from preflibtools.properties.decorators import *
+
+
+@requires_complete_preference
 def pairwise_scores(instance):
     """Returns a dictionary of dictionaries mapping every alternative a to the number of times it beats
     every other alternative b (the number of voters preferring a over b).
@@ -27,6 +31,7 @@ def pairwise_scores(instance):
         return scores
 
 
+@requires_complete_preference
 def copeland_scores(instance):
     """Returns a dictionary of dictionaries mapping every alternative a to their Copeland score against every other
     alternative b (the number of voters preferring a over b minus the number of voters preferring b over a).
@@ -54,6 +59,7 @@ def copeland_scores(instance):
         return scores
 
 
+@requires_complete_preference
 def has_condorcet(instance):
     """Checks whether the instance has a Condorcet winner, using different procedures depending on the data type of
     the instance. An alternative is a Condorcet winner if it strictly beats every other alternative in a pairwise
@@ -73,6 +79,7 @@ def has_condorcet(instance):
         return False
 
 
+@requires_complete_preference
 def borda_scores(instance):
     """Computes the total Borda scores of all the alternatives of the instance. Within an indifference class, all
     alternatives are assigned the smallest score one alternative from the class would have gotten, had the order
